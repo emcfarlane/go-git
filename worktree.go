@@ -925,6 +925,9 @@ func rmFileAndDirIfEmpty(fs billy.Filesystem, name string) error {
 func doCleanDirectories(fs billy.Filesystem, dir string) error {
 	files, err := fs.ReadDir(dir)
 	if err != nil {
+		if err == os.ErrNotExist {
+			return nil
+		}
 		return err
 	}
 	if len(files) == 0 {
